@@ -1,21 +1,34 @@
 # Campus Noise Classification Using Machine Learning
 
-## 1. Project Overview
+**University Campus Sound Analysis | Python | Scikit-learn | Multiclass Classification**
 
-This project applies machine learning techniques to analyze and classify noise levels collected from four campus locations. The objective is to identify noise patterns and compare the performance of different classification algorithms.
+---
 
-## 2. Data Collection
+## Project Overview
 
-The dataset contains **8,412 sound measurements** recorded in decibels (dBA) across four locations:
+This project applies machine learning algorithms to analyze and classify sound levels recorded across four university campus locations. The objective is to identify noise patterns, engineer meaningful features, and compare the performance of different classification models.
 
-- Library
-- Starbucks
-- Outside Harbor
-- CPK Front Desk
+### Project Summary
 
-Each record includes a decibel reading, timestamp, location, and time of day.
+| Metric | Result |
+|---|---|
+| Total Measurements | 8,412 |
+| Campus Locations | 4 |
+| Classification Categories | 3 |
+| Machine Learning Models | 3 |
+| Training / Testing Split | 80% / 20% |
+| Best Overall Model | Decision Tree |
+| Highest Accuracy | **75.46%** |
 
-### Noise Level Summary
+---
+
+## 1. Data Collection and Analysis
+
+The dataset contains **8,412 noise measurements**, recorded in decibels (dBA), from four campus locations.
+
+Each observation includes the recorded sound level, timestamp, location, and time-of-day information.
+
+### Noise Levels by Location
 
 | Location | Average dBA | Minimum dBA | Maximum dBA |
 |---|---:|---:|---:|
@@ -24,92 +37,157 @@ Each record includes a decibel reading, timestamp, location, and time of day.
 | Outside Harbor | 41.21 | 35.1 | 65.6 |
 | CPK Front Desk | 45.75 | 33.5 | 68.8 |
 
-Starbucks recorded the highest average noise level, while the Library recorded the lowest.
+**Observation:** Starbucks recorded the highest average noise level, while the Library recorded the lowest.
 
-## 3. Tools Used
+### Data Quality
 
-- **Python:** Data processing and machine learning implementation
-- **Pandas:** Data cleaning, manipulation, and analysis
-- **Scikit-learn:** Model training and evaluation
-- **GitHub Codespaces:** Development environment
+The dataset was examined for missing values and duplicate records.
 
-## 4. Data Preprocessing and Feature Engineering
+- Missing values: **0**
+- Duplicate records: **0**
+- Timestamp column converted to datetime format
 
-The dataset was checked for missing values and duplicate records. No missing values or duplicate rows were identified. Timestamps were converted into datetime format.
+---
 
-The following features were engineered:
+## 2. Tools and Technologies
 
-- **Hour:** Extracted from the timestamp to represent the hour of measurement.
-- **DayOfWeek:** Represents the day the measurement was recorded.
-- **IsWeekend:** Indicates whether the measurement occurred during a weekend.
-- **NoiseCategory:** Target variable created from the decibel measurements.
+| Tool | Purpose |
+|---|---|
+| Python | Data analysis and machine learning implementation |
+| Pandas | Data cleaning, processing, and feature engineering |
+| Scikit-learn | Model training, classification, and evaluation |
+| GitHub Codespaces | Development and execution environment |
 
-### Noise Classification
+---
 
-| Category | Decibel Range | Measurements |
+## 3. Feature Engineering
+
+The following features were created from the collected data:
+
+| Feature | Description |
+|---|---|
+| Hour | Hour extracted from the measurement timestamp |
+| DayOfWeek | Day of the week when the measurement was recorded |
+| IsWeekend | Indicates whether the measurement occurred on a weekend |
+| NoiseCategory | Target classification derived from recorded dBA |
+
+Location and time-of-day information were also used as model inputs.
+
+### Noise Classification Categories
+
+The project uses **multiclass classification** with three categories.
+
+| Category | Sound Level | Measurements |
 |---|---|---:|
 | Quiet | Below 40 dBA | 4,092 |
 | Moderate | 40–60 dBA | 3,799 |
 | Loud | Above 60 dBA | 521 |
+| **Total** | | **8,412** |
 
-The project uses multiclass classification to predict whether a measurement belongs to the Quiet, Moderate, or Loud category based on location and time-related features.
+---
 
-## 5. Machine Learning Algorithms
+## 4. Machine Learning Methodology
 
-Three classification algorithms were implemented:
+Three supervised classification algorithms were implemented.
 
-1. **Decision Tree:** Uses a series of decision rules to classify noise levels.
-2. **Random Forest:** Combines multiple decision trees to generate predictions.
-3. **Logistic Regression:** Uses a statistical classification model to estimate category probabilities.
+**Decision Tree**
 
-The dataset was divided into **80% training data (6,729 records)** and **20% testing data (1,683 records)**. Stratified splitting was used to maintain the distribution of noise categories.
+Classifies observations using a series of decision rules based on the input features.
 
-## 6. Performance Comparison and Evaluation
+**Random Forest**
 
-The models were evaluated using accuracy, weighted precision, weighted F1 score, and class-specific precision and recall.
+Combines multiple decision trees to produce classification predictions.
 
-| Model | Accuracy | Weighted Precision | Weighted F1 Score |
+**Logistic Regression**
+
+Estimates probabilities for different noise categories using a statistical classification approach.
+
+### Training and Testing
+
+The dataset was divided using an 80/20 stratified split.
+
+| Dataset | Measurements |
+|---|---:|
+| Training | 6,729 |
+| Testing | 1,683 |
+
+The models were trained on the training dataset and evaluated using previously unseen test records.
+
+---
+
+## 5. Model Performance Comparison
+
+Three evaluation metrics were used: accuracy, weighted precision, and weighted F1 score. Class-specific recall was also examined.
+
+| Model | Accuracy | Precision | F1 Score |
 |---|---:|---:|---:|
-| Decision Tree | 75.46% | 72.32% | 73.22% |
+| **Decision Tree** | **75.46%** | **72.32%** | **73.22%** |
 | Random Forest | 65.42% | 72.06% | 67.49% |
 | Logistic Regression | 65.42% | 72.06% | 67.49% |
 
+*Precision and F1 scores are weighted averages across the three noise categories.*
+
 ### Evaluation Results
 
-The **Decision Tree** achieved the highest overall accuracy at 75.46% and the highest weighted F1 score at 73.22%.
+**Decision Tree** achieved the highest overall accuracy and weighted F1 score, making it the best-performing model based on these metrics.
 
-However, the Decision Tree did not correctly identify any Loud measurements in the test dataset, resulting in 0% recall for that category.
+However, it failed to correctly identify Loud measurements, producing 0% recall for that category.
 
-Random Forest and Logistic Regression achieved lower overall accuracy but identified approximately 78% of Loud measurements. Both models produced identical evaluation results in this experiment.
+**Random Forest and Logistic Regression** achieved approximately 78% recall for Loud measurements, although their overall accuracy was lower.
 
-## 7. Key Findings
+Both models produced identical evaluation results in this experiment.
 
-- Starbucks was the noisiest location on average, while the Library was the quietest.
-- Quiet was the most common noise category, followed by Moderate and Loud.
-- Decision Tree was the best-performing model based on overall accuracy and weighted F1 score.
-- Random Forest and Logistic Regression were more effective at identifying Loud measurements.
-- The smaller number of Loud measurements created a class imbalance that may have influenced classification performance.
+---
 
-## 8. Project Files
+## 6. Key Findings and Discussion
 
-- `main.py` — Python source code containing data preprocessing, model training, and evaluation
-- `All three.csv` — Collected noise measurements
-- `README.md` — Project report and documentation
-- Video demonstration — Explanation of the methodology, key findings, and best-performing model
+- **Noise patterns:** Starbucks had the highest average sound level, while the Library had the lowest.
+- **Class distribution:** Quiet and Moderate measurements were considerably more common than Loud measurements.
+- **Best overall performance:** Decision Tree achieved the highest accuracy at 75.46%.
+- **Loud noise detection:** Random Forest and Logistic Regression performed better at identifying Loud measurements.
+- **Model limitations:** Class imbalance and closely spaced observations may influence the reliability and generalization of predictions.
 
-## 9. Running the Project
+The results demonstrate that overall accuracy does not always reflect how effectively a model identifies every classification category.
 
-Install the required libraries:
+---
+
+## 7. Running the Project
+
+### Install Dependencies
 
 ```bash
 pip install pandas scikit-learn
 ```
 
-Run the Python implementation:
+### Execute the Program
 
 ```bash
 python3 main.py
 ```
 
-The program processes the collected data, trains the three classification algorithms, and displays their performance evaluation results.
+The program loads the dataset, performs preprocessing and feature engineering, trains the classification models, and displays their evaluation results.
 
+---
+
+## 8. Project Deliverables
+
+| File | Description |
+|---|---|
+| `README.md` | Project report and documentation |
+| `main.py` | Python machine learning source code |
+| `All three.csv` | Collected campus noise dataset |
+| `demonstration.mp4` | Video presentation of findings, methodology, and best-performing model |
+
+### Video Demonstration
+
+The accompanying video will cover the dataset, preprocessing steps, engineered features, classification algorithms, model comparison, and a demonstration of the Decision Tree classifier.
+
+---
+
+## Conclusion
+
+This project successfully applied three machine learning algorithms to classify campus noise measurements into Quiet, Moderate, and Loud categories.
+
+The Decision Tree achieved the best overall accuracy at **75.46%**, while Random Forest and Logistic Regression demonstrated better recall for Loud measurements.
+
+The comparison highlights the importance of evaluating both overall model performance and individual classification categories.
