@@ -1,45 +1,72 @@
 # Campus Noise Classification Using Machine Learning
 
-## Project Overview
-This project uses machine learning to analyze and classify noise levels collected from four university campus locations. A total of **8,412 sound measurements** were collected in decibels (dBA).
+## 1. Project Overview
 
-## Tools Used
-- Python
-- Pandas
-- Scikit-learn
-- GitHub Codespaces
+This project applies machine learning techniques to analyze and classify noise levels collected from four campus locations. The objective is to identify noise patterns and compare the performance of different classification algorithms.
 
-## Dataset
-Data was collected from four locations:
+## 2. Data Collection
+
+The dataset contains **8,412 sound measurements** recorded in decibels (dBA) across four locations:
+
 - Library
 - Starbucks
 - Outside Harbor
 - CPK Front Desk
 
-Each record contains a noise measurement, timestamp, location, and time of day.
+Each record includes a decibel reading, timestamp, location, and time of day.
 
-## Data Preprocessing and Feature Engineering
-The dataset was checked for missing values and duplicates, and timestamps were converted into datetime format.
+### Noise Level Summary
 
-Three features were engineered:
-- **Hour:** Hour of the measurement
-- **DayOfWeek:** Day the measurement was recorded
-- **IsWeekend:** Whether the measurement occurred on a weekend
+| Location | Average dBA | Minimum dBA | Maximum dBA |
+|---|---:|---:|---:|
+| Library | 37.49 | 29.5 | 69.3 |
+| Starbucks | 58.27 | 50.1 | 78.7 |
+| Outside Harbor | 41.21 | 35.1 | 65.6 |
+| CPK Front Desk | 45.75 | 33.5 | 68.8 |
 
-Noise measurements were categorized as:
-- **Quiet:** Below 40 dBA
-- **Moderate:** 40–60 dBA
-- **Loud:** Above 60 dBA
+Starbucks recorded the highest average noise level, while the Library recorded the lowest.
 
-## Machine Learning Models
+## 3. Tools Used
+
+- **Python:** Data processing and machine learning implementation
+- **Pandas:** Data cleaning, manipulation, and analysis
+- **Scikit-learn:** Model training and evaluation
+- **GitHub Codespaces:** Development environment
+
+## 4. Data Preprocessing and Feature Engineering
+
+The dataset was checked for missing values and duplicate records. No missing values or duplicate rows were identified. Timestamps were converted into datetime format.
+
+The following features were engineered:
+
+- **Hour:** Extracted from the timestamp to represent the hour of measurement.
+- **DayOfWeek:** Represents the day the measurement was recorded.
+- **IsWeekend:** Indicates whether the measurement occurred during a weekend.
+- **NoiseCategory:** Target variable created from the decibel measurements.
+
+### Noise Classification
+
+| Category | Decibel Range | Measurements |
+|---|---|---:|
+| Quiet | Below 40 dBA | 4,092 |
+| Moderate | 40–60 dBA | 3,799 |
+| Loud | Above 60 dBA | 521 |
+
+The project uses multiclass classification to predict whether a measurement belongs to the Quiet, Moderate, or Loud category based on location and time-related features.
+
+## 5. Machine Learning Algorithms
+
 Three classification algorithms were implemented:
-1. Decision Tree
-2. Random Forest
-3. Logistic Regression
 
-The dataset was split into **80% training and 20% testing**, using stratification to preserve category proportions.
+1. **Decision Tree:** Uses a series of decision rules to classify noise levels.
+2. **Random Forest:** Combines multiple decision trees to generate predictions.
+3. **Logistic Regression:** Uses a statistical classification model to estimate category probabilities.
 
-## Model Performance
+The dataset was divided into **80% training data (6,729 records)** and **20% testing data (1,683 records)**. Stratified splitting was used to maintain the distribution of noise categories.
+
+## 6. Performance Comparison and Evaluation
+
+The models were evaluated using accuracy, weighted precision, weighted F1 score, and class-specific precision and recall.
 
 | Model | Accuracy | Weighted Precision | Weighted F1 Score |
 |---|---:|---:|---:|
@@ -47,14 +74,30 @@ The dataset was split into **80% training and 20% testing**, using stratificatio
 | Random Forest | 65.42% | 72.06% | 67.49% |
 | Logistic Regression | 65.42% | 72.06% | 67.49% |
 
-## Key Findings
-- Starbucks recorded the highest average noise level at approximately **58.27 dBA**.
-- The Library recorded the lowest average at approximately **37.49 dBA**.
-- Decision Tree achieved the highest overall accuracy and weighted F1 score.
-- Random Forest and Logistic Regression performed better at identifying Loud measurements, with approximately **78% recall**, compared with 0% for Decision Tree.
-- Class imbalance and closely spaced measurements may affect model performance.
+### Evaluation Results
 
-## Running the Project
+The **Decision Tree** achieved the highest overall accuracy at 75.46% and the highest weighted F1 score at 73.22%.
+
+However, the Decision Tree did not correctly identify any Loud measurements in the test dataset, resulting in 0% recall for that category.
+
+Random Forest and Logistic Regression achieved lower overall accuracy but identified approximately 78% of Loud measurements. Both models produced identical evaluation results in this experiment.
+
+## 7. Key Findings
+
+- Starbucks was the noisiest location on average, while the Library was the quietest.
+- Quiet was the most common noise category, followed by Moderate and Loud.
+- Decision Tree was the best-performing model based on overall accuracy and weighted F1 score.
+- Random Forest and Logistic Regression were more effective at identifying Loud measurements.
+- The smaller number of Loud measurements created a class imbalance that may have influenced classification performance.
+
+## 8. Project Files
+
+- `main.py` — Python source code containing data preprocessing, model training, and evaluation
+- `All three.csv` — Collected noise measurements
+- `README.md` — Project report and documentation
+- Video demonstration — Explanation of the methodology, key findings, and best-performing model
+
+## 9. Running the Project
 
 Install the required libraries:
 
@@ -62,14 +105,11 @@ Install the required libraries:
 pip install pandas scikit-learn
 ```
 
-Run the program:
+Run the Python implementation:
 
 ```bash
 python3 main.py
 ```
 
-## Project Files
-- `main.py` — Machine learning implementation
-- `All Four.csv` — Collected noise dataset
-- `README.md` — Project documentation and report
-- Video demonstration — Explanation of findings and demonstration of the best-performing model
+The program processes the collected data, trains the three classification algorithms, and displays their performance evaluation results.
+
