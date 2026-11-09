@@ -1,1 +1,75 @@
-SENG691
+# Campus Noise Classification Using Machine Learning
+
+## Project Overview
+This project uses machine learning to analyze and classify noise levels collected from four university campus locations. A total of **8,412 sound measurements** were collected in decibels (dBA).
+
+## Tools Used
+- Python
+- Pandas
+- Scikit-learn
+- GitHub Codespaces
+
+## Dataset
+Data was collected from four locations:
+- Library
+- Starbucks
+- Outside Harbor
+- CPK Front Desk
+
+Each record contains a noise measurement, timestamp, location, and time of day.
+
+## Data Preprocessing and Feature Engineering
+The dataset was checked for missing values and duplicates, and timestamps were converted into datetime format.
+
+Three features were engineered:
+- **Hour:** Hour of the measurement
+- **DayOfWeek:** Day the measurement was recorded
+- **IsWeekend:** Whether the measurement occurred on a weekend
+
+Noise measurements were categorized as:
+- **Quiet:** Below 40 dBA
+- **Moderate:** 40–60 dBA
+- **Loud:** Above 60 dBA
+
+## Machine Learning Models
+Three classification algorithms were implemented:
+1. Decision Tree
+2. Random Forest
+3. Logistic Regression
+
+The dataset was split into **80% training and 20% testing**, using stratification to preserve category proportions.
+
+## Model Performance
+
+| Model | Accuracy | Weighted Precision | Weighted F1 Score |
+|---|---:|---:|---:|
+| Decision Tree | 75.46% | 72.32% | 73.22% |
+| Random Forest | 65.42% | 72.06% | 67.49% |
+| Logistic Regression | 65.42% | 72.06% | 67.49% |
+
+## Key Findings
+- Starbucks recorded the highest average noise level at approximately **58.27 dBA**.
+- The Library recorded the lowest average at approximately **37.49 dBA**.
+- Decision Tree achieved the highest overall accuracy and weighted F1 score.
+- Random Forest and Logistic Regression performed better at identifying Loud measurements, with approximately **78% recall**, compared with 0% for Decision Tree.
+- Class imbalance and closely spaced measurements may affect model performance.
+
+## Running the Project
+
+Install the required libraries:
+
+```bash
+pip install pandas scikit-learn
+```
+
+Run the program:
+
+```bash
+python3 main.py
+```
+
+## Project Files
+- `main.py` — Machine learning implementation
+- `All Four.csv` — Collected noise dataset
+- `README.md` — Project documentation and report
+- Video demonstration — Explanation of findings and demonstration of the best-performing model
